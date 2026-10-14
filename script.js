@@ -116,6 +116,12 @@
     els.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
+  // Demo: discourage saving images
+  document.querySelectorAll("img").forEach(function (img) {
+    img.setAttribute("draggable", "false");
+    img.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+  });
+
   // Footer year
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();

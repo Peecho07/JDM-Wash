@@ -549,3 +549,27 @@ main, header, footer { position: relative; z-index: 1; }
 .member strong { display: block; font-family: var(--font-display); font-size: 1.0625rem; }
 .member span { font-size: 0.8125rem; color: var(--muted-foreground); }
 .avatar--lg { width: 52px; height: 52px; font-size: 1.0625rem; flex: none; }
+
+/* ==========================================================
+   Demo protection: ribbon and notice bar
+   ========================================================== */
+.demo-bar {
+  padding: 0.4rem 1rem; text-align: center;
+  background: var(--accent); color: var(--accent-foreground);
+  font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.04em; line-height: 1.4;
+}
+.demo-bar strong { text-transform: uppercase; letter-spacing: 0.14em; margin-right: 0.5em; }
+@media (max-width: 640px) { .demo-bar .demo-long { display: none; } .demo-bar { font-size: 0.625rem; } }
+
+.demo-ribbon {
+  position: fixed; top: 0; right: 0; z-index: 90; width: 150px; height: 150px;
+  overflow: hidden; pointer-events: none;
+}
+.demo-ribbon span {
+  position: absolute; top: 34px; right: -46px; width: 200px; transform: rotate(45deg);
+  padding: 0.5rem 0; text-align: center;
+  background: var(--accent); color: var(--accent-foreground);
+  font-family: var(--font-mono); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 899px) { .demo-ribbon { display: none; } } /* phones keep the notice bar pinned in the header instead */
