@@ -1,5 +1,6 @@
 (function () {
   document.documentElement.classList.remove("no-js");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Mobile menu
   var toggle = document.querySelector(".nav-toggle");
@@ -8,40 +9,11 @@
     toggle.addEventListener("click", function () {
       var open = menu.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(open));
-    });
-    menu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () {
-        menu.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     });
   }
 
-  // Tabs (category switcher)
-  document.querySelectorAll("[data-tabs]").forEach(function (group) {
-    var tabs = group.querySelectorAll('[role="tab"]');
-    tabs.forEach(function (tab, i) {
-      tab.addEventListener("click", function () { select(tab); });
-      tab.addEventListener("keydown", function (e) {
-        var dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-        if (!dir) return;
-        e.preventDefault();
-        var next = tabs[(i + dir + tabs.length) % tabs.length];
-        next.focus(); select(next);
-      });
-    });
-    function select(tab) {
-      tabs.forEach(function (t) {
-        var on = t === tab;
-        t.setAttribute("aria-selected", String(on));
-        t.tabIndex = on ? 0 : -1;
-        var panel = document.getElementById(t.getAttribute("aria-controls"));
-        if (panel) panel.hidden = !on;
-      });
-    }
-  });
-
-  // Vehicle size switcher: swaps every [data-prices] amount
+  // Vehicle size switcher on the plans page: swaps every [data-prices] amount
   document.querySelectorAll("[data-size-switch]").forEach(function (group) {
     var buttons = group.querySelectorAll("button");
     buttons.forEach(function (btn) {
@@ -51,8 +23,9 @@
         document.querySelectorAll("[data-prices]").forEach(function (el) {
           var list = el.dataset.prices.split("|");
           var val = list[Math.min(idx, list.length - 1)];
+          if (reduce) { el.textContent = val; return; }
           el.style.opacity = "0";
-          setTimeout(function () { el.textContent = val; el.style.opacity = "1"; }, 120);
+          setTimeout(function () { el.textContent = val; el.style.opacity = "1"; }, 150);
         });
       });
     });
@@ -61,32 +34,27 @@
   // FAQ accordion
   document.querySelectorAll(".faq-item button").forEach(function (btn) {
     btn.addEventListener("click", function () {
-      var item = btn.closest(".faq-item");
-      var open = item.classList.toggle("is-open");
+      var open = btn.closest(".faq-item").classList.toggle("is-open");
       btn.setAttribute("aria-expanded", String(open));
     });
   });
 
-  // Prefill service from "Book this" buttons
-  document.querySelectorAll("[data-book]").forEach(function (link) {
-    link.addEventListener("click", function () {
-      var select = document.getElementById("service");
-      if (!select) return;
-      var want = link.dataset.book;
-      for (var i = 0; i < select.options.length; i++) {
-        if (select.options[i].value === want) { select.selectedIndex = i; break; }
-      }
-    });
-  });
+  // Booking page: prefill the service picked on Packages or Plans (?service=...)
+  var wanted = new URLSearchParams(window.location.search).get("service");
+  var select = document.getElementById("service");
+  if (wanted && select) {
+    for (var i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === wanted) { select.selectedIndex = i; break; }
+    }
+  }
 
-  // Form: Netlify Forms when deployed there; on static hosts (e.g. GitHub Pages)
-  // that can't take a POST, hand the request to the customer's email app instead
+  // Booking form: Netlify Forms when deployed there. On static hosts (GitHub Pages)
+  // that can't take a POST, hand the request to the visitor's email app instead.
   var form = document.querySelector("form[data-booking]");
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var fd = new FormData(form);
-      var data = new URLSearchParams(fd).toString();
       var done = function () { form.closest(".form").classList.add("is-sent"); };
       var viaEmail = function () {
         var lines = [];
@@ -97,24 +65,32 @@
           "&body=" + encodeURIComponent(lines.join("\n"));
         done();
       };
-      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: data })
+      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(fd).toString() })
         .then(function (res) { res.ok ? done() : viaEmail(); })
         .catch(viaEmail);
     });
   }
 
-  // Reveal on scroll
+  // Entrance motion: fade up on scroll, children of [data-stagger] 100ms apart
+  document.querySelectorAll("[data-stagger]").forEach(function (group) {
+    group.querySelectorAll(":scope > .reveal").forEach(function (el, n) {
+      el.style.setProperty("--delay", 100 + n * 100 + "ms");
+    });
+  });
   var els = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window) {
+  if ("IntersectionObserver" in window && !reduce) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
       });
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
     els.forEach(function (el) { io.observe(el); });
   } else {
     els.forEach(function (el) { el.classList.add("is-visible"); });
   }
+
+  // Hero gauge sweeps to 4400 PSI once the page has loaded
+  requestAnimationFrame(function () { document.documentElement.classList.add("is-ready"); });
 
   // Demo: discourage saving images
   document.querySelectorAll("img").forEach(function (img) {
@@ -125,15 +101,4 @@
   // Footer year
   var y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
-})();
-
-// Gauge needle sweep when visible
-(function () {
-  var g = document.querySelector(".gauge");
-  if (!g) return;
-  if (!("IntersectionObserver" in window)) { g.classList.add("is-live"); return; }
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { setTimeout(function(){ g.classList.add("is-live"); }, 250); io.disconnect(); } });
-  }, { threshold: 0.4 });
-  io.observe(g);
 })();

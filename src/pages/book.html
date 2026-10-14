@@ -1,0 +1,73 @@
+    <section class="section page-head">
+      <div class="glow glow--hero" aria-hidden="true"></div>
+      <div class="container book">
+        <div class="reveal">
+          <span class="label"><span class="dot pulse" aria-hidden="true"></span>Book a detail</span>
+          <h1>Get on <span class="gradient-text">today's schedule.</span></h1>
+          <p class="lede">Send a request and we'll confirm your time. Need it fast? Call or text.</p>
+          <div class="contact-list">
+            <a class="card card--link contact-row" href="tel:6892879946">
+              <span class="icon-tile icon-tile--sm"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg></span>
+              <span><span class="k">Call</span><span class="v">689-287-9946</span></span>
+            </a>
+            <a class="card card--link contact-row" href="sms:6892879946">
+              <span class="icon-tile icon-tile--sm"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></span>
+              <span><span class="k">Text</span><span class="v">Fastest way to book</span></span>
+            </a>
+            <a class="card card--link contact-row" href="mailto:support@jdmwashllc.com">
+              <span class="icon-tile icon-tile--sm"><svg class="ico" aria-hidden="true"><use href="#i-mail"/></svg></span>
+              <span><span class="k">Email</span><span class="v">support@jdmwashllc.com</span></span>
+            </a>
+          </div>
+          <div class="card hours">
+            <div class="hours-row"><span>Monday to Saturday</span><span>Same-day available</span></div>
+            <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+          </div>
+        </div>
+
+        <div class="featured reveal">
+          <div class="card form">
+            <form name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-booking>
+              <div class="form-fields">
+                <input type="hidden" name="form-name" value="booking">
+                <p class="hidden"><label>Leave blank <input name="bot-field"></label></p>
+                <h2 class="h3">Request a booking</h2>
+                <p class="sub">We'll text you back to confirm.</p>
+                <div class="field-row">
+                  <div class="field"><label for="name">Name</label><input class="input" id="name" name="name" autocomplete="name" required placeholder="Your name"></div>
+                  <div class="field"><label for="phone">Phone</label><input class="input" id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="(689) 555-0123"></div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label for="car">Year, make, model</label><input class="input" id="car" name="vehicle" placeholder="2019 Honda Civic Si"></div>
+                  <div class="field">
+                    <label for="service">Service</label>
+                    <select class="input select" id="service" name="service" required>
+                      <option value="">Select one</option>
+                      <option>Exterior Detail ($180)</option>
+                      <option>Interior Detail ($220)</option>
+                      <option>Full Detail Package ($350)</option>
+                      <option>Silver Plan</option>
+                      <option>Gold Plan</option>
+                      <option>Platinum Elite Plan</option>
+                      <option>Not sure yet</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field-row">
+                  <div class="field"><label for="date">Preferred date</label><input class="input" id="date" name="date" type="date"></div>
+                  <div class="field"><label for="zip">Service ZIP code</label><input class="input" id="zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="34741"></div>
+                </div>
+                <div class="field"><label for="notes">Anything we should know?</label><textarea class="input textarea" id="notes" name="notes" placeholder="Pet hair, stains, water access, gate code..."></textarea></div>
+                <button class="btn btn--primary btn--lg btn--block" type="submit">Send request <svg class="ico arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+                <p class="form-note">We'll confirm your time before we head out.</p>
+              </div>
+            </form>
+            <div class="form-success" role="status">
+              <span class="icon-tile"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span>
+              <h2 class="h3">Request received.</h2>
+              <p>We'll text you shortly to confirm. In a rush? Call 689-287-9946.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>

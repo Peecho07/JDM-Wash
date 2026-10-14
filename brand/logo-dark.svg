@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 80" role="img" aria-label="JDM Wash, mobile detailing, Kissimmee FL (for dark backgrounds)">
+  <g transform="translate(8 8)">
+  <defs>
+    <linearGradient id="jld-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0052FF"/><stop offset="1" stop-color="#4D7CFF"/></linearGradient>
+  </defs>
+  <!-- Badge: rounded square like a JDM club sticker -->
+  <rect x="2" y="2" width="60" height="60" rx="17" fill="url(#jld-g)"/>
+  <!-- Water drop -->
+  <path d="M32 8.5c-1.2 1.6-15 18.2-15 29.3a15 15 0 0 0 30 0C47 26.7 33.2 10.1 32 8.5z" fill="#FFFFFF"/>
+  <!-- Hatchback profile cut into the drop -->
+  <path d="M21.6 42.6h2.6m7.2 0h3.8m7.2 0h1.9v-3.3c0-.9-.6-1.6-1.4-1.8l-3.5-.9-3.6-3.8a2.6 2.6 0 0 0-1.9-.8h-5.7c-.8 0-1.5.3-2 .9l-3.2 3.8-1.6.6c-.7.3-1.1 1-1.1 1.7v2.9c0 .4.3.7.7.7z" fill="none" stroke="#0052FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="27.8" cy="42.6" r="2.9" fill="none" stroke="#0052FF" stroke-width="2"/>
+  <circle cx="38.8" cy="42.6" r="2.9" fill="none" stroke="#0052FF" stroke-width="2"/>
+  <!-- Pressure washer spray -->
+  <path d="M9 22.5h6M7 28h7M10 33.5h4.5" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+  </g>
+  <text x="86" y="45" font-family="'Calistoga', Georgia, serif" font-size="34" fill="#FFFFFF">JDM Wash</text>
+  <circle cx="90" cy="60" r="3" fill="#0052FF"/>
+  <text x="100" y="63.5" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="10" letter-spacing="2.4" fill="#94A3B8">MOBILE DETAILING • KISSIMMEE FL</text>
+</svg>
